@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ModernVPN" xmlns:viewmodel="clr-namespace:ModernVPN.MVVM.ViewModel"
+        xmlns:local="clr-namespace:ModernVPN" 
+        xmlns:extensions="clr-namespace:ModernVPN.Core" 
+        xmlns:viewmodel="clr-namespace:ModernVPN.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
@@ -47,11 +49,14 @@
                             HorizontalAlignment="Right"
                             Margin="0,0,4,0">
 
-                    <Button Content="-" 
+                    <Button Content="—" 
+                            Padding="0,0,0,2"
                             Command="{Binding MinimizeWindowCommand}"/>
                     <Button Content="⬜"
+                            Padding="0,0,0,3"
                             Command="{Binding MaximizeWindowCommand}"/>
-                    <Button Content="X"
+                    <Button Content="🗙"
+                            Padding="0,0,0,2"
                             Command="{Binding ShutdownWindowCommand}"/>
 
                 </StackPanel>
@@ -96,25 +101,31 @@
 
             <StackPanel>
                 <RadioButton Content="VPN"
+                             extensions:Extensions.Icon="🛡️"
+                             FontSize="16"
+                             Padding="5,3.5,8,0"
+                             FontWeight="Normal"
+                             Foreground="LightGray"
+                             IsChecked="True"
+                             Command="{Binding ShowProtectionView}"/>
+
+                <RadioButton Content="VPN"
+                             FontSize="16"
+                             FontWeight="Normal"
+                             Foreground="LightGray"/>
+
+                <RadioButton Content="Settings"
+                             extensions:Extensions.Icon="⚙️"
+                             Padding="6,3.5,4.7,0"
                              FontSize="16"
                              FontWeight="Normal"
                              Foreground="LightGray"
-                             IsChecked="True"/>
-
-                <RadioButton Content="VPN"
-                             FontSize="16"
-                             FontWeight="Normal"
-                             Foreground="LightGray"/>
-
-                <RadioButton Content="VPN"
-                             FontSize="16"
-                             FontWeight="Normal"
-                             Foreground="LightGray"/>
+                             Command="{Binding ShowSettingsView}"/>
             </StackPanel>
 
         </Border>
 
-        <ContentPresenter/>
+        <ContentPresenter Content="{Binding CurrentView}"/>
 
     </DockPanel>
 </Window>
