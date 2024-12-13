@@ -24,7 +24,23 @@
                                   Offset="1"/>
                 </LinearGradientBrush>
             </Image.OpacityMask>
+            <Image.Effect>
+                <BlurEffect Radius="10"/>
+            </Image.Effect>
         </Image>
+
+        <ListView ItemsSource="{Binding Servers}"
+                  Width="250"
+                  Margin="0,20,0,0"
+                  Background="#252525"
+                  BorderThickness="0"
+                  ScrollViewer.CanContentScroll="False"/>
+
+        <Button Width="250"
+                Height="45"
+                Content="Connect"
+                Grid.Row="1"
+                Style="{StaticResource ConnectButtonStyle}"/>
 
     </Grid>
 </UserControl>
