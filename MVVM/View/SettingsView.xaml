@@ -7,11 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="#1E1E1E">
-    <Grid>
+    <StackPanel VerticalAlignment="Center">
         <TextBlock Text="SettingsView"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Foreground="LightGray"
                    FontSize="28"/>
-    </Grid>
+
+        <CheckBox IsChecked="{Binding Global.IsAwesome}"
+                  Grid.Row="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Content="IsAwesome"
+                  Foreground="White"/>
+    </StackPanel>
 </UserControl>

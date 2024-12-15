@@ -11,6 +11,8 @@ namespace ModernVPN.MVVM.ViewModel
     {
         public ObservableCollection<ServerModel> Servers { get; set; }
 
+        public GlobalViewModel Global { get; } = GlobalViewModel.Instance;
+
         private string _connectionStatus;
 
         public string ConnectionStatus
@@ -39,30 +41,36 @@ namespace ModernVPN.MVVM.ViewModel
 
             ConnectCommand = new RelayCommand(x => 
             {
-                ConnectionStatus = "Connecting..";
-
-                ServerBuilder();
-
-                var process = new Process();
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-                process.StartInfo.ArgumentList.Add(@"/c rasdial MyServer vpnbook c28hes5 /phonebook:{PbkPath}");
-
-                process.Start();
-                process.WaitForExit();  
-
-                switch (process.ExitCode) 
+                Task.Run(() =>
                 {
-                    case 0:
-                        Debug.WriteLine("Success!");
-                        break;
-                    case 691:
-                        Debug.WriteLine("Wrong credentials!");
-                        break;
-                    default:
-                        Console.WriteLine($"Error: {process.ExitCode}");
-                        break;
-                }
+
+                    ConnectionStatus = "Connecting..";
+
+                    var process = new Process();
+                    process.StartInfo.FileName = "cmd.exe";
+                    process.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+                    process.StartInfo.ArgumentList.Add(@"/c rasdial MyServer vpnbook c28hes5 /phonebook:./VPN/US16.vpnbook.com.pbk");
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+
+                    process.Start();
+                    process.WaitForExit();
+
+                    switch (process.ExitCode)
+                    {
+                        case 0:
+                            Debug.WriteLine("Success!");
+                            ConnectionStatus = "Connected!";
+                            break;
+                        case 691:
+                            Debug.WriteLine("Wrong credentials!");
+                            ConnectionStatus = "Wrong Credentials!";
+                            break;
+                        default:
+                            Debug.WriteLine($"Error: {process.ExitCode}");
+                            break;
+                    }
+                });
 
             });
         }
@@ -71,7 +79,7 @@ namespace ModernVPN.MVVM.ViewModel
         {
             var address = "US16.vpnbook.com";
             var FolderPath = $"{Directory.GetCurrentDirectory()}/VPN";
-            var PbkPath = $"{FolderPath}\\{address}.pbk";
+            var PbkPath = $"{FolderPath}/{address}.pbk";
 
             if (!Directory.Exists(FolderPath)) 
                 Directory.CreateDirectory(FolderPath);

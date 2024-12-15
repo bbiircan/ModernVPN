@@ -49,5 +49,12 @@
                 Style="{StaticResource ConnectButtonStyle}"
                 Command="{Binding ConnectCommand}"/>
 
+        <CheckBox IsChecked="{Binding Global.IsAwesome}"
+                  Grid.Row="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom"
+                  Content="IsAwesome"
+                  Foreground="White"/>
+
     </Grid>
 </UserControl>
